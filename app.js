@@ -2,8 +2,7 @@ import express from 'express'
 import logger from 'morgan'
 import cors from 'cors'
 
-const contactsRouter = require('./routes/api/contacts')
-
+import contactsRouter from './routes/api/contacts.js'
 const app = express()
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
