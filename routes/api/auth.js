@@ -1,7 +1,7 @@
 import express from 'express';
 import ctrl from "../../controllers/auth.js";
-import { validateBody, authenticate } from '../../middlewares/index.js';
-import {registerSchema, loginSchema} from '../../models/user.js'
+import { validateBody, authenticate, isValidId} from '../../middlewares/index.js';
+import { registerSchema, loginSchema, userUpdateName } from '../../models/user.js';
 
 const authRouter = express.Router();
 
@@ -13,6 +13,6 @@ authRouter.get("/current", authenticate, ctrl.getCurrent)
 
 authRouter.post("/logout", authenticate, ctrl.logout)
 
-// router.patch("/users", authenticate, validateBody(schemas.updateSubscriptionSchema), ctrl.updateSubscription)
+authRouter.patch("/:id/name", authenticate, isValidId, validateBody(userUpdateName), ctrl.updateById);
 
 export default authRouter;
