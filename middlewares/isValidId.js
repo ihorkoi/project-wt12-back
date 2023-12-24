@@ -1,7 +1,3 @@
-// const { isValidObjectId } = require('mongoose');
-
-// const { HttpError } = require("../helpers")
-
 import { isValidObjectId } from "mongoose";
 import { HttpError } from "../helpers/index.js";
 
