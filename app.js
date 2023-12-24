@@ -1,9 +1,9 @@
-const express = require('express')
-const logger = require('morgan')
-const cors = require('cors')
-require('dotenv').config()
+import express from 'express';
+import logger from 'morgan';
+import cors from 'cors';
+import 'dotenv/config';
 
-const authRouter = require('./routes/api/auth')
+import authRouter from './routes/api/auth.js';
 
 const app = express()
 
@@ -24,4 +24,4 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message, })
 })
 
-module.exports = app
+export default app;

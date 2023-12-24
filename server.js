@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import app from "./app.js"
 
-const app = require("./app");
 const { DB_HOST, PORT = 3000 } = process.env;
 
 mongoose.set("strictQuery", true);
@@ -14,4 +14,4 @@ mongoose.connect(DB_HOST)
   .catch((error) => {
     console.log(error.message);
     process.exit(1);
-  });
+});

@@ -1,21 +1,18 @@
-const express = require("express");
+import express from 'express';
+import ctrl from "../../controllers/auth.js";
+import { validateBody, authenticate } from '../../middlewares/index.js';
+import {registerSchema, loginSchema} from '../../models/user.js'
 
-const ctrl = require('../../controllers/auth')
+const authRouter = express.Router();
 
-const { validateBody, authenticate } = require('../../middlewares')
+authRouter.post('/register', validateBody(registerSchema), ctrl.register)
 
-const {schemas} = require('../../models/user')
+authRouter.post('/login', validateBody(loginSchema), ctrl.login)
 
-const router = express.Router();
+authRouter.get("/current", authenticate, ctrl.getCurrent)
 
-router.post('/register', validateBody(schemas.registerSchema), ctrl.register)
+authRouter.post("/logout", authenticate, ctrl.logout)
 
-router.post('/login', validateBody(schemas.loginSchema), ctrl.login)
+// router.patch("/users", authenticate, validateBody(schemas.updateSubscriptionSchema), ctrl.updateSubscription)
 
-router.get("/current", authenticate, ctrl.getCurrent)
-
-router.post("/logout", authenticate, ctrl.logout)
-
-router.patch("/users", authenticate, validateBody(schemas.updateSubscriptionSchema), ctrl.updateSubscription)
-
-module.exports = router
+export default authRouter;

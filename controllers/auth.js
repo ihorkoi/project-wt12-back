@@ -1,9 +1,8 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
-const { HttpError, ctrlWrapper } = require("../helpers");
-
-const { User } = require('../models/user');
+import User from "../models/user.js";
+import {HttpError, ctrlWrapper} from "../helpers/index.js"
 
 const { SECRET_KEY } = process.env;
 
@@ -70,7 +69,8 @@ const updateSubscription = async (req, res) => {
     })
 
 }
-module.exports = {
+
+export default {
     register: ctrlWrapper(register),
     login: ctrlWrapper(login),
     getCurrent: ctrlWrapper(getCurrent),
