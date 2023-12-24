@@ -14,12 +14,15 @@
     "cloudinary": "^1.41.1",
     "cors": "2.8.5",
     "cross-env": "7.0.3",
-    "express": "4.17.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.17.1",
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "morgan": "1.10.0",
     "multer": "^1.4.5-lts.1",
+    "node": "^21.2.0",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
