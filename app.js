@@ -5,7 +5,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDocument from './swagger.json'assert { type: 'json' };
 import "dotenv/config";
 
-import contactsRouter from './routes/api/contacts.js';
+import contactsRouter from './routes/api/contacts.js'
 
 const app = express()
 
