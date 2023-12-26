@@ -25,7 +25,7 @@ const register = async (req, res) => {
     res.status(201).json({
         token,
         email: newUser.email,
-        name: newUser.name
+        name: newUser.email.split('@')[0]
     })
 }
 
