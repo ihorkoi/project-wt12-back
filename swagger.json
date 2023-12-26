@@ -177,7 +177,9 @@
           "password": {
             "type": "string",
             "description": "User's password",
-            "example": "qwerty123"
+            "example": "qwerty123",
+            "minLength": 8,
+            "maxLength": 48
           }
         }
       },
