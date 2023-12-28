@@ -1,28 +1,20 @@
-import express from 'express'
+import express from "express";
+import ctrl from "../../controllers/contacts.js";
+import {
+  authenticate,
+  isValidId,
+  validateBody,
+} from "../../middlewares/index.js";
+import { addWaterSchema, waterEditSchema } from "../../models/water.js";
 
+const contactsRouter = express.Router();
 
-const contactsRouter = express.Router()
+contactsRouter.use(authenticate);
 
-contactsRouter.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+contactsRouter.post("/", validateBody(addWaterSchema), ctrl.addWater);
 
-contactsRouter.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+contactsRouter.put("/:id", validateBody(waterEditSchema), ctrl.editWater);
 
-contactsRouter.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+contactsRouter.delete("/:id", isValidId, ctrl.deleteWater);
 
-contactsRouter.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
-
-contactsRouter.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
-
-
-export default contactsRouter
-
+export default contactsRouter;
