@@ -2,21 +2,24 @@ import { Schema, model } from "mongoose";
 import Joi from "joi";
 import { handleMongooseError } from "../helpers/index.js";
 
-const waterSchema = new Schema({
-  waterAmount: {
-    type: String,
-    reqired: [true, "Water amount is required"],
+const waterSchema = new Schema(
+  {
+    waterAmount: {
+      type: String,
+      reqired: [true, "Water amount is required"],
+    },
+    time: {
+      type: String,
+      reqired: [true, "Time is required"],
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
-  time: {
-    type: String,
-    reqired: [true, "Time is required"],
-  },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: "user",
-    required: true,
-  },
-});
+  { versionKey: false, timestamps: true }
+);
 
 waterSchema.post("save", handleMongooseError);
 
