@@ -1,5 +1,5 @@
 import express from "express";
-import ctrl from "../../controllers/contacts.js";
+import ctrl from "../../controllers/waterrate.js";
 import {
   authenticate,
   isValidId,
