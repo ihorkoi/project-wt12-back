@@ -15,7 +15,7 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 app.use(logger(formatsLogger))
 app.use(cors())
 app.use(function(req, res, next) {
-  const allowedOrigins = ['http://localhost:3000', 'https://ihorkoi.github.io/'];
+  const allowedOrigins = ['http://localhost:3000', 'https://ihorkoi.github.io/project-wt12-front'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
        res.setHeader('Access-Control-Allow-Origin', origin);
