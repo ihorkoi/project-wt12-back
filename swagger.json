@@ -191,6 +191,123 @@
           }
         }
       }
+    },
+
+    "/api/water": {
+      "post": {
+        "tags": ["Water"],
+        "summary": "Add water entry",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Water entry object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddWaterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddWaterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/api/water/{id}": {
+      "put": {
+        "tags": ["Water"],
+        "summary": "Edit water entry by ID",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Water entry ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated water entry object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditWaterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditWaterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "Water entry not found",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Water"],
+        "summary": "Delete water entry by ID",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Water entry ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteWaterResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Water entry not found",
+            "content": {}
+          }
+        }
+      }
     }
   },
 
@@ -296,6 +413,89 @@
           "name": {
             "type": "string",
             "description": "User's updated name"
+          }
+        }
+      },
+
+      "AddWaterRequest": {
+        "type": "object",
+        "required": ["waterAmount", "time"],
+        "properties": {
+          "waterAmount": {
+            "type": "string",
+            "description": "Amount of water",
+            "example": "500ml"
+          },
+          "time": {
+            "type": "string",
+            "description": "Time of water intake",
+            "example": "2023-12-01T12:00:00Z"
+          }
+        }
+      },
+      "AddWaterResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Water entry ID"
+          },
+          "waterAmount": {
+            "type": "string",
+            "description": "Amount of water"
+          },
+          "time": {
+            "type": "string",
+            "description": "Time of water intake"
+          },
+          "owner": {
+            "type": "string",
+            "description": "ID of the owner user"
+          }
+        }
+      },
+      "EditWaterRequest": {
+        "type": "object",
+        "properties": {
+          "waterAmount": {
+            "type": "string",
+            "description": "Updated amount of water",
+            "example": "750ml"
+          },
+          "time": {
+            "type": "string",
+            "description": "Updated time of water intake",
+            "example": "2023-12-01T15:30:00Z"
+          }
+        }
+      },
+      "EditWaterResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Water entry ID"
+          },
+          "waterAmount": {
+            "type": "string",
+            "description": "Updated amount of water"
+          },
+          "time": {
+            "type": "string",
+            "description": "Updated time of water intake"
+          },
+          "owner": {
+            "type": "string",
+            "description": "ID of the owner user"
+          }
+        }
+      },
+      "DeleteWaterResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Deletion success message"
           }
         }
       }
