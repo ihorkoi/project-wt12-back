@@ -6,7 +6,7 @@ import swaggerDocument from './swagger.json'assert { type: 'json' };
 import "dotenv/config";
 
 import authRouter from './routes/api/auth.js';
-import contactsRouter from './routes/api/waterrate.js'
+import waterRouter from './routes/api/waterrate.js'
 
 const app = express()
 
@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
 app.use(express.json())
 
 app.use('/api/auth', authRouter)
-app.use('/api/waterrate', contactsRouter)
+app.use('/api/waterrate', waterRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res) => {
