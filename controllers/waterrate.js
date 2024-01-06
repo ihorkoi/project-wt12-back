@@ -2,6 +2,36 @@ import Water from "../models/water.js";
 
 import { HttpError, ctrlWrapper } from "../helpers/index.js";
 
+const getMonthWater = async (req, res) => {
+  const { _id: owner } = req.user;
+  const date = new Date(req.body.date)
+
+  const currentYear = date.getFullYear()
+  const currentMonth = date.getMonth()
+  const nextMonth = date.getMonth() + 1
+
+  // const result = await Water.find({ owner, createdAt: { $gt: new Date(currentYear, currentMonth), $lt: new Date(currentYear, nextMonth) } })
+  const result = await Water.aggregate([{ "$match": { owner, 'createdAt': { '$gt': new Date(currentYear, currentMonth), '$lt': new Date(currentYear, nextMonth) } } }, {
+    '$sort': {
+      'createdAt': 1,
+    }
+  },
+  {
+    $group: {
+      _id: {
+        day: {
+          $toString: {
+            $dayOfMonth: '$createdAt',
+          },
+        },
+      },
+    }
+  },])
+
+  res.status(201).json(result);
+};
+
+
 const addWater = async (req, res) => {
   const { _id: owner } = req.user;
   const result = await Water.create({ ...req.body, owner });
@@ -37,4 +67,5 @@ export default {
   addWater: ctrlWrapper(addWater),
   editWater: ctrlWrapper(editWater),
   deleteWater: ctrlWrapper(deleteWater),
+  getMonthWater: ctrlWrapper(getMonthWater)
 };

@@ -6,7 +6,7 @@ import swaggerDocument from './swagger.json'assert { type: 'json' };
 import "dotenv/config";
 
 import authRouter from './routes/api/auth.js';
-import contactsRouter from './routes/api/waterrate.js'
+import waterRouter from './routes/api/waterrate.js'
 
 const app = express()
 
@@ -14,11 +14,11 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
 app.use(logger(formatsLogger))
 app.use(cors())
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   const allowedOrigins = ['http://localhost:3000', 'https://ihorkoi.github.io/project-wt12-front'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
-       res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Origin', origin);
   }
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-credentials", true);
@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
 app.use(express.json())
 
 app.use('/api/auth', authRouter)
-app.use('/api/waterrate', contactsRouter)
+app.use('/api/waterrate', waterRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res) => {
