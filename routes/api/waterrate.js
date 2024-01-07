@@ -11,7 +11,7 @@ const waterRouter = express.Router();
 
 waterRouter.use(authenticate);
 
-waterRouter.get("/", ctrl.getMonthWater);
+waterRouter.get("/getMonthWater/", ctrl.getMonthWater);
 
 waterRouter.post("/", validateBody(addWaterSchema), ctrl.addWater);
 

@@ -4,7 +4,8 @@ import { HttpError, ctrlWrapper } from "../helpers/index.js";
 
 const getMonthWater = async (req, res) => {
   const { _id: owner } = req.user;
-  const date = new Date(req.body.date)
+
+  const date = new Date(req.query.date)
 
   const currentYear = date.getFullYear()
   const currentMonth = date.getMonth()
