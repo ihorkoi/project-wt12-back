@@ -11,22 +11,38 @@ const getMonthWater = async (req, res) => {
   const nextMonth = date.getMonth() + 1
 
   // const result = await Water.find({ owner, createdAt: { $gt: new Date(currentYear, currentMonth), $lt: new Date(currentYear, nextMonth) } })
-  const result = await Water.aggregate([{ "$match": { owner, 'createdAt': { '$gt': new Date(currentYear, currentMonth), '$lt': new Date(currentYear, nextMonth) } } }, {
-    '$sort': {
-      'createdAt': 1,
-    }
-  },
-  {
-    $group: {
-      _id: {
-        day: {
-          $toString: {
-            $dayOfMonth: '$createdAt',
-          },
+
+  const result = await Water.aggregate([
+    { "$match": { owner, 'createdAt': { '$gt': new Date(currentYear, currentMonth), '$lt': new Date(currentYear, nextMonth) } } },
+    {
+      $sort: {
+        createdAt: -1, // Сортуємо за спаданням, щоб перший запис був останнім за день
+      },
+    },
+    {
+      $group: {
+        _id: { day: { $dayOfMonth: "$createdAt" }, month: { $month: "$createdAt" } },
+        totalWaterAmount: { $sum: "$waterAmount" },
+        totalDailyNorm: { $first: "$dailyNorm" },
+        recordsCount: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        dayNumber: "$_id.day",
+        monthNumber: "$_id.month",
+        totalWaterAmount: 1,
+        recordsCount: 1,
+        percent: {
+          $multiply: [
+            { $divide: ["$totalWaterAmount", "$totalDailyNorm"] },
+            100,
+          ],
         },
       },
-    }
-  },])
+    },
+  ])
 
   res.status(201).json(result);
 };
