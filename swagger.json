@@ -334,6 +334,44 @@
           }
         }
       }
+    },
+    "/api/waterrate/getMonthWater": {
+      "get": {
+        "tags": ["Water"],
+        "summary": "Get water entries for a specific month",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "date",
+            "description": "Date for the month (format: YYYY-MM-DD)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddWaterResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        }
+      }
     }
   },
 
@@ -450,7 +488,7 @@
           "waterAmount": {
             "type": "string",
             "description": "Amount of water",
-            "example": "500ml"
+            "example": "500"
           },
           "time": {
             "type": "string",
@@ -486,7 +524,7 @@
           "waterAmount": {
             "type": "string",
             "description": "Updated amount of water",
-            "example": "750ml"
+            "example": "750"
           },
           "time": {
             "type": "string",
