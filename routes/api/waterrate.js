@@ -7,14 +7,14 @@ import {
 } from "../../middlewares/index.js";
 import { addWaterSchema, waterEditSchema } from "../../models/water.js";
 
-const contactsRouter = express.Router();
+const waterRouter = express.Router();
 
-contactsRouter.use(authenticate);
+waterRouter.use(authenticate);
 
-contactsRouter.post("/", validateBody(addWaterSchema), ctrl.addWater);
+waterRouter.post("/", validateBody(addWaterSchema), ctrl.addWater);
 
-contactsRouter.put("/:id", validateBody(waterEditSchema), ctrl.editWater);
+waterRouter.put("/:id", validateBody(waterEditSchema), ctrl.editWater);
 
-contactsRouter.delete("/:id", isValidId, ctrl.deleteWater);
+waterRouter.delete("/:id", isValidId, ctrl.deleteWater);
 
-export default contactsRouter;
+export default waterRouter;
