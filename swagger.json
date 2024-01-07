@@ -193,7 +193,7 @@
       }
     },
 
-    "/api/water": {
+    "/api/waterrate": {
       "post": {
         "tags": ["Water"],
         "summary": "Add water entry",
@@ -228,7 +228,7 @@
       }
     },
 
-    "/api/water/{id}": {
+    "/api/waterrate/{id}": {
       "put": {
         "tags": ["Water"],
         "summary": "Edit water entry by ID",
@@ -304,6 +304,32 @@
           },
           "404": {
             "description": "Water entry not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/today": {
+      "get": {
+        "tags": ["Water"],
+        "summary": "Get water entries for today",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddWaterResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {}
           }
         }

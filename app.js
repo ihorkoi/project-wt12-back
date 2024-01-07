@@ -7,6 +7,7 @@ import "dotenv/config";
 
 import authRouter from './routes/api/auth.js';
 import contactsRouter from './routes/api/waterrate.js'
+import todayRouter from './routes/api/today.js';
 
 const app = express()
 
@@ -30,6 +31,7 @@ app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/waterrate', contactsRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/today', todayRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' })
