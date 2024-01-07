@@ -17,7 +17,7 @@ const getMonthWater = async (req, res) => {
     { "$match": { owner, 'createdAt': { '$gt': new Date(currentYear, currentMonth), '$lt': new Date(currentYear, nextMonth) } } },
     {
       $sort: {
-        createdAt: -1, // Сортуємо за спаданням, щоб перший запис був останнім за день
+        createdAt: -1,
       },
     },
     {
