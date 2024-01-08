@@ -59,7 +59,9 @@ const addWater = async (req, res) => {
 const editWater = async (req, res) => {
   const { id } = req.params;
   const { _id: owner } = req.user;
-  const result = await Water.findOneAndUpdate({ _id: id, owner }, req.body);
+  const result = await Water.findOneAndUpdate({ _id: id, owner }, req.body, {
+    new: true
+  });
   if (!result) {
     throw HttpError(404, `Water with id=${id} not found`);
   }
