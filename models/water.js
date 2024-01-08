@@ -5,7 +5,7 @@ import { handleMongooseError } from "../helpers/index.js";
 const waterSchema = new Schema(
   {
     waterAmount: {
-      type: Number,
+      type: String,
       reqired: [true, "Water amount is required"],
     },
     dailyNorm: {
