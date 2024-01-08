@@ -1,4 +1,6 @@
 import Water from "../models/water.js";
+import User from "../models/user.js";
+
 
 import { HttpError, ctrlWrapper } from "../helpers/index.js";
 
@@ -12,7 +14,7 @@ const getMonthWater = async (req, res) => {
   const nextMonth = date.getMonth() + 1
 
   // const result = await Water.find({ owner, createdAt: { $gt: new Date(currentYear, currentMonth), $lt: new Date(currentYear, nextMonth) } })
-
+  const { dailyWaterRequirement } = await User.findOne(owner)
   const result = await Water.aggregate([
     { "$match": { owner, 'createdAt': { '$gt': new Date(currentYear, currentMonth), '$lt': new Date(currentYear, nextMonth) } } },
     {
@@ -23,8 +25,11 @@ const getMonthWater = async (req, res) => {
     {
       $group: {
         _id: { day: { $dayOfMonth: "$createdAt" }, month: { $month: "$createdAt" } },
-        totalWaterAmount: { $sum: "$waterAmount" },
-        totalDailyNorm: { $first: "$dailyNorm" },
+        totalWaterAmount: {
+          $sum: {
+            $ifNull: [{ $toInt: "$waterAmount" }, 0],
+          },
+        },
         recordsCount: { $sum: 1 },
       },
     },
@@ -37,7 +42,7 @@ const getMonthWater = async (req, res) => {
         recordsCount: 1,
         percent: {
           $multiply: [
-            { $divide: ["$totalWaterAmount", "$totalDailyNorm"] },
+            { $divide: ["$totalWaterAmount", dailyWaterRequirement] },
             100,
           ],
         },

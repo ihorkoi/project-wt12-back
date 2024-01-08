@@ -8,10 +8,6 @@ const waterSchema = new Schema(
       type: String,
       reqired: [true, "Water amount is required"],
     },
-    dailyNorm: {
-      type: Number,
-      reqired: [true, "Daily norm is required"],
-    },
     time: {
       type: String,
       reqired: [true, "Time is required"],
