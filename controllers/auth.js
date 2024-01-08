@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import fs from 'fs/promises'
 
 import User from "../models/user.js";
-import {HttpError, ctrlWrapper} from "../helpers/index.js"
+import {HttpError, ctrlWrapper, cloudinary} from "../helpers/index.js"
 
 const { SECRET_KEY } = process.env;
 
@@ -13,7 +14,6 @@ const register = async (req, res) => {
         throw HttpError(409, "Email already in use")
     }
     const hashPassword = await bcrypt.hash(password, 10);
-
     const newUser = await User.create({ ...req.body, password: hashPassword });
 
     const payload = {
@@ -25,7 +25,10 @@ const register = async (req, res) => {
     res.status(201).json({
         token,
         email: newUser.email,
-        name: newUser.email.split('@')[0]
+        name: newUser.email.split('@')[0],
+        gender: newUser.gender,
+        dailyWaterRequirement: newUser.dailyWaterRequirement,
+        avatarURL: newUser.avatarURL,
     })
 }
 
@@ -51,10 +54,15 @@ const login = async (req, res) => {
 }
 
 const getCurrent = async (req, res) => {
-    const { email, name } = req.user;
+    const { _id, email, name, gender, dailyWaterRequirement, avatarURL } = req.user;
+    
     res.json({
+        _id,
         email,
         name,
+        gender,
+        dailyWaterRequirement,
+        avatarURL,
     })
 }
 
@@ -77,10 +85,29 @@ const updateById = async (req, res) => {
     res.json(result);
 }
 
+const updateAvatar = async (req, res) => {
+    const { _id } = req.user;
+    const {url: avatarURL} = await cloudinary.uploader.upload(req.file.path, {
+        folder: "avatars",
+    });
+    await fs.unlink(req.file.path);
+
+    const result = await User.findByIdAndUpdate(_id, { avatarURL });
+    
+    if (!result) {
+        throw HttpError(404, 'Not found')
+    }
+
+    res.json({
+        avatarURL
+    })
+}
+
 export default {
     register: ctrlWrapper(register),
     login: ctrlWrapper(login),
     getCurrent: ctrlWrapper(getCurrent),
     logout: ctrlWrapper(logout),
-    updateById: ctrlWrapper(updateById)
+    updateById: ctrlWrapper(updateById),
+    updateAvatar: ctrlWrapper(updateAvatar)
 }

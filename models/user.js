@@ -25,17 +25,28 @@ const userSchema = new Schema({
   token: {
     type: String,
     default: ""
+  },
+  gender: {
+    type: String,
+    default: "man"
+  },
+  dailyWaterRequirement: {
+    type: Number,
+    default: 1500
+  },
+  avatarURL: {
+    type: String,
+    default: ""
   }
 
 }, { versionKey: false, timestamps: true })
 
 userSchema.post('save', handleMongooseError)
 
-
 export const registerSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().pattern(emailRegex).required(),
-  password: Joi.string().min(6).max(64).required(),
+  password: Joi.string().min(6).max(64).required()
 })
 
 export const loginSchema = Joi.object({
