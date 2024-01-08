@@ -33,12 +33,15 @@ const userSchema = new Schema({
   dailyWaterRequirement: {
     type: Number,
     default: 1500
+  },
+  avatarURL: {
+    type: String,
+    default: ""
   }
 
 }, { versionKey: false, timestamps: true })
 
 userSchema.post('save', handleMongooseError)
-
 
 export const registerSchema = Joi.object({
   name: Joi.string().required(),
