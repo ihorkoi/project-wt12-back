@@ -54,6 +54,7 @@ export const loginSchema = Joi.object({
   password: Joi.string().min(6).max(64).required(),
 });
 
+
 export const userUpdateName = Joi.object({
   name: Joi.string().required(),
 });
