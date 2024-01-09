@@ -420,6 +420,44 @@
           }
         }
       }
+    },
+    "/api/auth/update-water-norm": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Update user's daily water norm",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update user's daily water norm object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWaterNormRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body or value)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        }
+      }
     }
   },
 
@@ -608,6 +646,18 @@
           "message": {
             "type": "string",
             "description": "Deletion success message"
+          }
+        }
+      },
+      "UpdateWaterNormRequest": {
+        "type": "object",
+        "required": ["dailyWaterRequirement"],
+        "properties": {
+          "dailyWaterRequirement": {
+            "type": "number",
+            "description": "Updated daily water norm value",
+            "minimum": 0,
+            "maximum": 15000
           }
         }
       }
