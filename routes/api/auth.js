@@ -17,4 +17,6 @@ authRouter.patch("/:id/name", authenticate, isValidId, validateBody(userUpdateNa
 
 authRouter.patch("/avatars", authenticate, upload.single("avatarURL"), ctrl.updateAvatar)
 
+authRouter.patch("/update-water-norm", authenticate, ctrl.updateWaterNorm);
+
 export default authRouter;
