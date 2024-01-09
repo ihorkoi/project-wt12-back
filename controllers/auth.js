@@ -34,31 +34,27 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
 
-  
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-        throw HttpError(401, "Email or password invalid");
-    }
-    const passwordCompare = await bcrypt.compare(password, user.password);
-    if (!passwordCompare) {
-        throw HttpError(401, "Email or password invalid");
-    }
 
-    const payload = {
-        id: user._id
-    }
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" })
-    await User.findByIdAndUpdate(user._id, { token })
-    res.json({
-        token,
-        email: user.email,
-        name: user.name,
-        gender: user.gender,
-        dailyWaterRequirement: user.dailyWaterRequirement,
-        avatarURL: user.avatarURL
-    })
-}
+  const payload = {
+    id: user._id,
+  };
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+  const updatedUser = await User.findByIdAndUpdate(
+    user._id,
+    { token },
+    { new: true }
+  );
+  res.json({
+    token,
+    user: {
+      id: updatedUser._id,
+      email: updatedUser.email,
+      gender: updatedUser.gender,
+      dailyWaterRequirement: updatedUser.dailyWaterRequirement,
+      avatarURL: updatedUser.avatarURL,
+    },
+  });
+};
 
 
 const getCurrent = async (req, res) => {
@@ -86,7 +82,7 @@ const logout = async (req, res) => {
 
 const updateById = async (req, res) => {
   const { _id } = req.user;
-  const result = await User.findByIdAndUpdate(_id, req.body);
+  const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
   if (!result) {
     throw HttpError(404, `User with id=${_id} not found`);
   }
@@ -117,7 +113,10 @@ const updateWaterNorm = async (req, res) => {
   const { dailyWaterRequirement } = req.body;
 
   if (dailyWaterRequirement < 0 || dailyWaterRequirement > 15000) {
-    throw new Error("Invalid daily water norm value: " + dailyWaterRequirementValidationError.details[0].message);
+    throw new Error(
+      "Invalid daily water norm value: " +
+        dailyWaterRequirementValidationError.details[0].message
+    );
   }
 
   const result = await User.findByIdAndUpdate(

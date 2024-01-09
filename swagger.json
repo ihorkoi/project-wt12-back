@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "1.0.4",
+    "version": "1.0.6",
     "title": "WaterTraсker API docs",
     "description": "API documentation for project WaterTraсker",
     "license": {
@@ -146,7 +146,7 @@
       }
     },
 
-    "/api/auth/{id}/name": {
+    "/api/auth/{id}": {
       "patch": {
         "tags": ["Auth"],
         "summary": "Update user name by ID",
@@ -465,12 +465,8 @@
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
-        "required": ["name", "email", "password"],
+        "required": ["email", "password"],
         "properties": {
-          "name": {
-            "type": "string",
-            "description": "User's name"
-          },
           "email": {
             "type": "string",
             "description": "User's email",
