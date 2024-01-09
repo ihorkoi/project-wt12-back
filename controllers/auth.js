@@ -47,9 +47,20 @@ const login = async (req, res) => {
     id: user._id,
   };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-  await User.findByIdAndUpdate(user._id, { token });
+  const updatedUser = await User.findByIdAndUpdate(
+    user._id,
+    { token },
+    { new: true }
+  );
   res.json({
     token,
+    user: {
+      id: updatedUser._id,
+      email: updatedUser.email,
+      gender: updatedUser.gender,
+      dailyWaterRequirement: updatedUser.dailyWaterRequirement,
+      avatarURL: updatedUser.avatarURL,
+    },
   });
 };
 
@@ -78,7 +89,7 @@ const logout = async (req, res) => {
 
 const updateById = async (req, res) => {
   const { _id } = req.user;
-  const result = await User.findByIdAndUpdate(_id, req.body);
+  const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
   if (!result) {
     throw HttpError(404, `User with id=${_id} not found`);
   }
@@ -109,7 +120,10 @@ const updateWaterNorm = async (req, res) => {
   const { dailyWaterRequirement } = req.body;
 
   if (dailyWaterRequirement < 0 || dailyWaterRequirement > 15000) {
-    throw new Error("Invalid daily water norm value: " + dailyWaterRequirementValidationError.details[0].message);
+    throw new Error(
+      "Invalid daily water norm value: " +
+        dailyWaterRequirementValidationError.details[0].message
+    );
   }
 
   const result = await User.findByIdAndUpdate(
