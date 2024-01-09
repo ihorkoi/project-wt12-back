@@ -33,8 +33,15 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-
-
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw HttpError(401, "Email or password invalid");
+  }
+  const passwordCompare = await bcrypt.compare(password, user.password);
+  if (!passwordCompare) {
+    throw HttpError(401, "Email or password invalid");
+  }
   const payload = {
     id: user._id,
   };
@@ -115,7 +122,7 @@ const updateWaterNorm = async (req, res) => {
   if (dailyWaterRequirement < 0 || dailyWaterRequirement > 15000) {
     throw new Error(
       "Invalid daily water norm value: " +
-        dailyWaterRequirementValidationError.details[0].message
+      dailyWaterRequirementValidationError.details[0].message
     );
   }
 
