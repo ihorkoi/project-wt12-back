@@ -41,10 +41,12 @@ const getMonthWater = async (req, res) => {
         totalWaterAmount: 1,
         recordsCount: 1,
         percent: {
-          $multiply: [
-            { $divide: ["$totalWaterAmount", dailyWaterRequirement] },
-            100,
-          ],
+          $round: {
+            $multiply: [
+              { $divide: ["$totalWaterAmount", dailyWaterRequirement] },
+              100,
+            ],
+          }
         },
       },
     },
