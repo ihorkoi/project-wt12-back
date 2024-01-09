@@ -13,7 +13,6 @@ const getMonthWater = async (req, res) => {
   const currentMonth = date.getMonth()
   const nextMonth = date.getMonth() + 1
 
-  // const result = await Water.find({ owner, createdAt: { $gt: new Date(currentYear, currentMonth), $lt: new Date(currentYear, nextMonth) } })
   const { dailyWaterRequirement } = await User.findOne(owner)
   const result = await Water.aggregate([
     { "$match": { owner, 'createdAt': { '$gt': new Date(currentYear, currentMonth), '$lt': new Date(currentYear, nextMonth) } } },
