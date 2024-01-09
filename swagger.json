@@ -347,7 +347,7 @@
           {
             "in": "query",
             "name": "date",
-            "description": "Date for the month (format: YYYY-MM-DD)",
+            "description": "Date for the month (format: YYYY-MM)",
             "required": true,
             "schema": {
               "type": "string",
