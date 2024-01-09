@@ -8,7 +8,7 @@ const calculateWaterPercentage = async (userId) => {
     throw HttpError(404, `User with id=${userId} not found`);
   }
 
-  const { waterNorm } = user;
+  const { dailyWaterRequirement } = user;
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -23,7 +23,7 @@ const calculateWaterPercentage = async (userId) => {
     0
   );
 
-  const percentage = (totalWaterConsumed / waterNorm) * 100;
+  const percentage = (totalWaterConsumed / dailyWaterRequirement) * 100;
 
   return { percentage, waterRecords };
 };

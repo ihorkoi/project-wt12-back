@@ -84,6 +84,7 @@ const deleteWater = async (req, res) => {
 
   res.json({
     message: "Delete success",
+    id
   });
 };
 
