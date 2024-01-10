@@ -29,6 +29,7 @@ const getMonthWater = async (req, res) => {
             $ifNull: [{ $toInt: "$waterAmount" }, 0],
           },
         },
+        totalDailyNorm: { $first: "$dailyNorm" },
         recordsCount: { $sum: 1 },
       },
     },
@@ -39,10 +40,11 @@ const getMonthWater = async (req, res) => {
         monthNumber: "$_id.month",
         totalWaterAmount: 1,
         recordsCount: 1,
+        totalDailyNorm: 1,
         percent: {
           $round: {
             $multiply: [
-              { $divide: ["$totalWaterAmount", dailyWaterRequirement] },
+              { $divide: ["$totalWaterAmount", "$totalDailyNorm"] },
               100,
             ],
           }

@@ -8,6 +8,10 @@ const waterSchema = new Schema(
       type: String,
       reqired: [true, "Water amount is required"],
     },
+    dailyWaterRequirement: {
+      type: Number,
+      reqired: [true, "Daily norm is required"],
+    },
     time: {
       type: String,
       reqired: [true, "Time is required"],
@@ -25,6 +29,7 @@ waterSchema.post("save", handleMongooseError);
 
 export const addWaterSchema = Joi.object({
   waterAmount: Joi.string().required(),
+  dailyWaterRequirement: Joi.number().required(),
   time: Joi.string().required(),
 });
 
