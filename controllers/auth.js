@@ -104,14 +104,14 @@ const updateAvatar = async (req, res) => {
   });
   await fs.unlink(req.file.path);
 
-  const result = await User.findByIdAndUpdate(_id, { avatarURL });
+  const result = await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
 
   if (!result) {
     throw HttpError(404, "Not found");
   }
 
   res.json({
-    avatarURL,
+    avatarURL: result.avatarURL,
   });
 };
 
