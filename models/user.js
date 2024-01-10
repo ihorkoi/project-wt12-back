@@ -28,7 +28,7 @@ const userSchema = new Schema(
     },
     gender: {
       type: String,
-      default: "man",
+      default: "male",
     },
     dailyWaterRequirement: {
       type: Number,
